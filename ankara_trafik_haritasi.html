@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_2d419ac738e479ff4d8a9b675244953a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+    <div style="
+        position: fixed;
+        top: 12px; left: 60px;
+        z-index: 9999;
+        background: rgba(44,62,80,0.93);
+        padding: 12px 22px;
+        border-radius: 10px;
+        border-left: 4px solid #3498db;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #ecf0f1;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    ">
+        <h3 style="margin:0; color:#3498db; font-size:16px;">
+            🏙️ Ankara D200 Kritik Kavşak Trafik Haritası
+        </h3>
+        <p style="margin:4px 0 0; font-size:12px; color:#bdc3c7;">
+            Son güncelleme: 08.06.2026 23:34:25
+            &nbsp;·&nbsp; Eskişehir Yolu Hattı &nbsp;·&nbsp;
+            6 Düğüm Noktası
+        </p>
+    </div>
+    
+    
+    <div style="
+        position: fixed;
+        bottom: 30px; right: 20px;
+        z-index: 9999;
+        background: rgba(44,62,80,0.93);
+        padding: 12px 18px;
+        border-radius: 10px;
+        border: 1px solid #7f8c8d;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #ecf0f1;
+        font-size: 13px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    ">
+        <b>Kavşak Durumu</b><br>
+        <span style="color:#2ecc71;">● Yeşil Marker</span> → Akıcı<br>
+        <span style="color:#e74c3c;">● Kırmızı Marker</span> → Sıkışık<br>
+        <span style="color:#3498db;">- - - Kesikli Çizgi</span> → D200 Hattı<br>
+        <span style="font-size:11px;color:#95a5a6;">
+            Kriter: Hız &lt; Serbest Akış × %80<br>
+            Sıkışık kavşaklarda alternatif rota önerilir
+        </span>
+    </div>
+    
+    
+            <div class="folium-map" id="map_2d419ac738e479ff4d8a9b675244953a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_2d419ac738e479ff4d8a9b675244953a = L.map(
+                "map_2d419ac738e479ff4d8a9b675244953a",
+                {
+                    center: [39.91, 32.68],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 10,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_5b91ff3d7070e4414e0edbf9f2f468bc = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5b91ff3d7070e4414e0edbf9f2f468bc.addTo(map_2d419ac738e479ff4d8a9b675244953a);
+        
+    
+            var feature_group_0498d6357d5c848ab0aa3d0c29ffd9fa = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_f39a0a446711246459cca97f58d9d0a4 = L.marker(
+                [39.584, 32.1477],
+                {
+}
+            ).addTo(feature_group_0498d6357d5c848ab0aa3d0c29ffd9fa);
+        
+    
+            var div_icon_481229244c1a4c32fb09aac3939d100d = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                font-family: \u0027Segoe UI\u0027, Arial, sans-serif;\n                font-size: 14px;\n                font-weight: bold;\n                color: #ecf0f1;\n                text-shadow: 0 0 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.6);\n                white-space: nowrap;\n                letter-spacing: 1px;\n            \"\u003ePolatl\u0131\u003c/div\u003e\n            ",
+  "iconSize": [120, 20],
+  "iconAnchor": [60, 10],
+  "className": "empty",
+});
+        
+    
+                marker_f39a0a446711246459cca97f58d9d0a4.setIcon(div_icon_481229244c1a4c32fb09aac3939d100d);
+            
+    
+            var marker_cdded0e24378a95c24d5743591486c46 = L.marker(
+                [39.968, 32.586],
+                {
+}
+            ).addTo(feature_group_0498d6357d5c848ab0aa3d0c29ffd9fa);
+        
+    
+            var div_icon_1b02a40984fb0f5e23f591963832c054 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                font-family: \u0027Segoe UI\u0027, Arial, sans-serif;\n                font-size: 14px;\n                font-weight: bold;\n                color: #ecf0f1;\n                text-shadow: 0 0 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.6);\n                white-space: nowrap;\n                letter-spacing: 1px;\n            \"\u003eSincan\u003c/div\u003e\n            ",
+  "iconSize": [120, 20],
+  "iconAnchor": [60, 10],
+  "className": "empty",
+});
+        
+    
+                marker_cdded0e24378a95c24d5743591486c46.setIcon(div_icon_1b02a40984fb0f5e23f591963832c054);
+            
+    
+            var marker_d3fc854cab0467d9b9cee0404136a91f = L.marker(
+                [39.945, 32.658],
+                {
+}
+            ).addTo(feature_group_0498d6357d5c848ab0aa3d0c29ffd9fa);
+        
+    
+            var div_icon_429a5c1ff02d8f1f74cf2c55834277cf = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                font-family: \u0027Segoe UI\u0027, Arial, sans-serif;\n                font-size: 14px;\n                font-weight: bold;\n                color: #ecf0f1;\n                text-shadow: 0 0 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.6);\n                white-space: nowrap;\n                letter-spacing: 1px;\n            \"\u003eEtimesgut\u003c/div\u003e\n            ",
+  "iconSize": [120, 20],
+  "iconAnchor": [60, 10],
+  "className": "empty",
+});
+        
+    
+                marker_d3fc854cab0467d9b9cee0404136a91f.setIcon(div_icon_429a5c1ff02d8f1f74cf2c55834277cf);
+            
+    
+            var marker_ec75fa64ff2b07edb6047a1010e1ae6d = L.marker(
+                [39.918, 32.854],
+                {
+}
+            ).addTo(feature_group_0498d6357d5c848ab0aa3d0c29ffd9fa);
+        
+    
+            var div_icon_a7a008356432f5fccf33397a43568b78 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                font-family: \u0027Segoe UI\u0027, Arial, sans-serif;\n                font-size: 14px;\n                font-weight: bold;\n                color: #ecf0f1;\n                text-shadow: 0 0 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.6);\n                white-space: nowrap;\n                letter-spacing: 1px;\n            \"\u003e\u00c7ankaya\u003c/div\u003e\n            ",
+  "iconSize": [120, 20],
+  "iconAnchor": [60, 10],
+  "className": "empty",
+});
+        
+    
+                marker_ec75fa64ff2b07edb6047a1010e1ae6d.setIcon(div_icon_a7a008356432f5fccf33397a43568b78);
+            
+    
+            var marker_566f7488ef51e7058984f26dac74d505 = L.marker(
+                [39.921, 33.231],
+                {
+}
+            ).addTo(feature_group_0498d6357d5c848ab0aa3d0c29ffd9fa);
+        
+    
+            var div_icon_208d9c4b5c43ac3da16e3c825fb32fab = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                font-family: \u0027Segoe UI\u0027, Arial, sans-serif;\n                font-size: 14px;\n                font-weight: bold;\n                color: #ecf0f1;\n                text-shadow: 0 0 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.6);\n                white-space: nowrap;\n                letter-spacing: 1px;\n            \"\u003eElmada\u011f\u003c/div\u003e\n            ",
+  "iconSize": [120, 20],
+  "iconAnchor": [60, 10],
+  "className": "empty",
+});
+        
+    
+                marker_566f7488ef51e7058984f26dac74d505.setIcon(div_icon_208d9c4b5c43ac3da16e3c825fb32fab);
+            
+    
+            feature_group_0498d6357d5c848ab0aa3d0c29ffd9fa.addTo(map_2d419ac738e479ff4d8a9b675244953a);
+        
+    
+            var feature_group_ecb79ce5f18cc3b188fb54a4184c29e5 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_8709e7a39c0841e54b756d275ebb60f3 = L.marker(
+                [39.5846, 32.1362],
+                {
+}
+            ).addTo(feature_group_ecb79ce5f18cc3b188fb54a4184c29e5);
+        
+    
+            var icon_9cdb57f4faeed38a675d041b65adcc0d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3c7fdc8a14db88b2420ebfcb629adf8a = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_be7544f7d499c0453a22e98dd0240698 = $(`<div id="html_be7544f7d499c0453a22e98dd0240698" style="width: 100.0%; height: 100.0%;">         <div style="             font-family: 'Segoe UI', Arial, sans-serif;             min-width: 280px;             max-width: 340px;             color: #ecf0f1;             background: #2c3e50;             padding: 14px;             border-radius: 8px;         ">             <!-- İlçe ve Kavşak Adı -->             <p style="margin:0 0 4px;font-size:11px;color:#95a5a6;                        text-transform:uppercase;letter-spacing:1px;">                 📌 Polatlı             </p>             <h3 style="margin:0 0 10px; color:#2ecc71; font-size:15px;">                 🟢 Polatlı D200 Sanayi Kavşağı             </h3>              <!-- Hava Durumu -->             <div style="display:flex; align-items:center; margin-bottom:8px;">                 <img src="https://openweathermap.org/img/wn/01n@2x.png" width="40"                      style="margin-right:8px;" alt="hava">                 <div>                     <b>Hava Durumu:</b> Açık<br>                     <b>Sıcaklık:</b> 17.8 °C                 </div>             </div>              <!-- Trafik Bilgisi Tablosu -->             <table style="width:100%; font-size:13px; border-collapse:collapse;">                 <tr>                     <td style="padding:3px 0;">🚗 <b>Mevcut Hız:</b></td>                     <td style="padding:3px 0;">30 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">🛣️ <b>Serbest Akış Hızı:</b></td>                     <td style="padding:3px 0;">35 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">📊 <b>Yoğunluk:</b></td>                     <td style="padding:3px 0;">%14.3</td>                 </tr>                 <tr>                     <td style="padding:3px 0;"><b>🚦 Durum:</b></td>                     <td style="padding:3px 0;font-weight:bold;color:#2ecc71;">                         Akıcı                     </td>                 </tr>             </table>              <!-- Yakın Kazalar -->                          <div style="margin-top:8px;padding-top:6px;border-top:1px solid #555;">                 <b>⚠️ Yakın Olaylar (5 adet):</b>                 <ol style="margin:4px 0;padding-left:18px;font-size:12px;">                     <li>Kapalı</li><li>Yol çalışması; Yeni yol çalışması düzeni</li><li>Kapalı</li><li>Kapalı; Yol çalışması</li><li>Kapalı</li>                 </ol>             </div>                           <!-- Alternatif Rota Tavsiyesi (sadece sıkışıksa görünür) -->                           <!-- Zaman damgası -->             <p style="margin:8px 0 0;font-size:11px;color:#7f8c8d;text-align:right;">                 Güncelleme: 23:34:25             </p>         </div>         </div>`)[0];
+                popup_3c7fdc8a14db88b2420ebfcb629adf8a.setContent(html_be7544f7d499c0453a22e98dd0240698);
+            
+        
+
+        marker_8709e7a39c0841e54b756d275ebb60f3.bindPopup(popup_3c7fdc8a14db88b2420ebfcb629adf8a)
+        ;
+
+        
+    
+    
+            marker_8709e7a39c0841e54b756d275ebb60f3.bindTooltip(
+                `<div>
+                     🟢 Polatlı — Polatlı D200 Sanayi Kavşağı — Akıcı (30 km/h)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8709e7a39c0841e54b756d275ebb60f3.setIcon(icon_9cdb57f4faeed38a675d041b65adcc0d);
+            
+    
+            var marker_ad08ee6c979788dee2b82e20396f9637 = L.marker(
+                [39.9497, 32.5534],
+                {
+}
+            ).addTo(feature_group_ecb79ce5f18cc3b188fb54a4184c29e5);
+        
+    
+            var icon_70216593ef1cc292e3151c7c2424f900 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0e5ef0b477ab38ab86b748cae58d48bb = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_aceb37fab3fd940e0d41c7a6e6a20963 = $(`<div id="html_aceb37fab3fd940e0d41c7a6e6a20963" style="width: 100.0%; height: 100.0%;">         <div style="             font-family: 'Segoe UI', Arial, sans-serif;             min-width: 280px;             max-width: 340px;             color: #ecf0f1;             background: #2c3e50;             padding: 14px;             border-radius: 8px;         ">             <!-- İlçe ve Kavşak Adı -->             <p style="margin:0 0 4px;font-size:11px;color:#95a5a6;                        text-transform:uppercase;letter-spacing:1px;">                 📌 Sincan             </p>             <h3 style="margin:0 0 10px; color:#2ecc71; font-size:15px;">                 🟢 Sincan OSB Kavşağı             </h3>              <!-- Hava Durumu -->             <div style="display:flex; align-items:center; margin-bottom:8px;">                 <img src="https://openweathermap.org/img/wn/01n@2x.png" width="40"                      style="margin-right:8px;" alt="hava">                 <div>                     <b>Hava Durumu:</b> Açık<br>                     <b>Sıcaklık:</b> 19.7 °C                 </div>             </div>              <!-- Trafik Bilgisi Tablosu -->             <table style="width:100%; font-size:13px; border-collapse:collapse;">                 <tr>                     <td style="padding:3px 0;">🚗 <b>Mevcut Hız:</b></td>                     <td style="padding:3px 0;">55 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">🛣️ <b>Serbest Akış Hızı:</b></td>                     <td style="padding:3px 0;">58 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">📊 <b>Yoğunluk:</b></td>                     <td style="padding:3px 0;">%5.2</td>                 </tr>                 <tr>                     <td style="padding:3px 0;"><b>🚦 Durum:</b></td>                     <td style="padding:3px 0;font-weight:bold;color:#2ecc71;">                         Akıcı                     </td>                 </tr>             </table>              <!-- Yakın Kazalar -->                          <div style="margin-top:8px;padding-top:6px;border-top:1px solid #555;">                 <b>⚠️ Yakın Olaylar (5 adet):</b>                 <ol style="margin:4px 0;padding-left:18px;font-size:12px;">                     <li>Kapalı</li><li>Kapalı</li><li>Trafik durağan</li><li>Kapalı</li><li>Kapalı</li>                 </ol>             </div>                           <!-- Alternatif Rota Tavsiyesi (sadece sıkışıksa görünür) -->                           <!-- Zaman damgası -->             <p style="margin:8px 0 0;font-size:11px;color:#7f8c8d;text-align:right;">                 Güncelleme: 23:34:25             </p>         </div>         </div>`)[0];
+                popup_0e5ef0b477ab38ab86b748cae58d48bb.setContent(html_aceb37fab3fd940e0d41c7a6e6a20963);
+            
+        
+
+        marker_ad08ee6c979788dee2b82e20396f9637.bindPopup(popup_0e5ef0b477ab38ab86b748cae58d48bb)
+        ;
+
+        
+    
+    
+            marker_ad08ee6c979788dee2b82e20396f9637.bindTooltip(
+                `<div>
+                     🟢 Sincan — Sincan OSB Kavşağı — Akıcı (55 km/h)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ad08ee6c979788dee2b82e20396f9637.setIcon(icon_70216593ef1cc292e3151c7c2424f900);
+            
+    
+            var marker_43f0b8e45e4466c4d2d8cf3ba867fa89 = L.marker(
+                [39.9473, 32.6312],
+                {
+}
+            ).addTo(feature_group_ecb79ce5f18cc3b188fb54a4184c29e5);
+        
+    
+            var icon_5d8b9aab8199807edca1afbc51203f62 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7ea683eb351ab984a517ed078499ec54 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_e51c034a8c9805b5bf99c7633972b599 = $(`<div id="html_e51c034a8c9805b5bf99c7633972b599" style="width: 100.0%; height: 100.0%;">         <div style="             font-family: 'Segoe UI', Arial, sans-serif;             min-width: 280px;             max-width: 340px;             color: #ecf0f1;             background: #2c3e50;             padding: 14px;             border-radius: 8px;         ">             <!-- İlçe ve Kavşak Adı -->             <p style="margin:0 0 4px;font-size:11px;color:#95a5a6;                        text-transform:uppercase;letter-spacing:1px;">                 📌 Etimesgut             </p>             <h3 style="margin:0 0 10px; color:#2ecc71; font-size:15px;">                 🟢 Eryaman Optimum Kavşağı             </h3>              <!-- Hava Durumu -->             <div style="display:flex; align-items:center; margin-bottom:8px;">                 <img src="https://openweathermap.org/img/wn/01n@2x.png" width="40"                      style="margin-right:8px;" alt="hava">                 <div>                     <b>Hava Durumu:</b> Açık<br>                     <b>Sıcaklık:</b> 20.0 °C                 </div>             </div>              <!-- Trafik Bilgisi Tablosu -->             <table style="width:100%; font-size:13px; border-collapse:collapse;">                 <tr>                     <td style="padding:3px 0;">🚗 <b>Mevcut Hız:</b></td>                     <td style="padding:3px 0;">114 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">🛣️ <b>Serbest Akış Hızı:</b></td>                     <td style="padding:3px 0;">114 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">📊 <b>Yoğunluk:</b></td>                     <td style="padding:3px 0;">%0.0</td>                 </tr>                 <tr>                     <td style="padding:3px 0;"><b>🚦 Durum:</b></td>                     <td style="padding:3px 0;font-weight:bold;color:#2ecc71;">                         Akıcı                     </td>                 </tr>             </table>              <!-- Yakın Kazalar -->                          <div style="margin-top:8px;padding-top:6px;border-top:1px solid #555;">                 <b>⚠️ Yakın Olaylar (1 adet):</b>                 <ol style="margin:4px 0;padding-left:18px;font-size:12px;">                     <li>Kapalı</li>                 </ol>             </div>                           <!-- Alternatif Rota Tavsiyesi (sadece sıkışıksa görünür) -->                           <!-- Zaman damgası -->             <p style="margin:8px 0 0;font-size:11px;color:#7f8c8d;text-align:right;">                 Güncelleme: 23:34:25             </p>         </div>         </div>`)[0];
+                popup_7ea683eb351ab984a517ed078499ec54.setContent(html_e51c034a8c9805b5bf99c7633972b599);
+            
+        
+
+        marker_43f0b8e45e4466c4d2d8cf3ba867fa89.bindPopup(popup_7ea683eb351ab984a517ed078499ec54)
+        ;
+
+        
+    
+    
+            marker_43f0b8e45e4466c4d2d8cf3ba867fa89.bindTooltip(
+                `<div>
+                     🟢 Etimesgut — Eryaman Optimum Kavşağı — Akıcı (114 km/h)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_43f0b8e45e4466c4d2d8cf3ba867fa89.setIcon(icon_5d8b9aab8199807edca1afbc51203f62);
+            
+    
+            var marker_3961ad65f2c35c2f102230f7c10da41d = L.marker(
+                [39.9086, 32.7384],
+                {
+}
+            ).addTo(feature_group_ecb79ce5f18cc3b188fb54a4184c29e5);
+        
+    
+            var icon_aa113d52a986cb040c30481092b17ce0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_21eb3d3d7e5fc8f1cab1e7e4d3e5c811 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_190815aca0cdb4fd783dd6604296daff = $(`<div id="html_190815aca0cdb4fd783dd6604296daff" style="width: 100.0%; height: 100.0%;">         <div style="             font-family: 'Segoe UI', Arial, sans-serif;             min-width: 280px;             max-width: 340px;             color: #ecf0f1;             background: #2c3e50;             padding: 14px;             border-radius: 8px;         ">             <!-- İlçe ve Kavşak Adı -->             <p style="margin:0 0 4px;font-size:11px;color:#95a5a6;                        text-transform:uppercase;letter-spacing:1px;">                 📌 Çankaya             </p>             <h3 style="margin:0 0 10px; color:#2ecc71; font-size:15px;">                 🟢 Ümitköy Köprüsü             </h3>              <!-- Hava Durumu -->             <div style="display:flex; align-items:center; margin-bottom:8px;">                 <img src="https://openweathermap.org/img/wn/01n@2x.png" width="40"                      style="margin-right:8px;" alt="hava">                 <div>                     <b>Hava Durumu:</b> Açık<br>                     <b>Sıcaklık:</b> 19.6 °C                 </div>             </div>              <!-- Trafik Bilgisi Tablosu -->             <table style="width:100%; font-size:13px; border-collapse:collapse;">                 <tr>                     <td style="padding:3px 0;">🚗 <b>Mevcut Hız:</b></td>                     <td style="padding:3px 0;">80 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">🛣️ <b>Serbest Akış Hızı:</b></td>                     <td style="padding:3px 0;">80 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">📊 <b>Yoğunluk:</b></td>                     <td style="padding:3px 0;">%0.0</td>                 </tr>                 <tr>                     <td style="padding:3px 0;"><b>🚦 Durum:</b></td>                     <td style="padding:3px 0;font-weight:bold;color:#2ecc71;">                         Akıcı                     </td>                 </tr>             </table>              <!-- Yakın Kazalar -->                          <div style="margin-top:8px;padding-top:6px;border-top:1px solid #555;">                 <b>⚠️ Yakın Olaylar (4 adet):</b>                 <ol style="margin:4px 0;padding-left:18px;font-size:12px;">                     <li>Kapalı</li><li>Kapalı</li><li>Trafik durağan</li><li>Trafik durağan</li>                 </ol>             </div>                           <!-- Alternatif Rota Tavsiyesi (sadece sıkışıksa görünür) -->                           <!-- Zaman damgası -->             <p style="margin:8px 0 0;font-size:11px;color:#7f8c8d;text-align:right;">                 Güncelleme: 23:34:25             </p>         </div>         </div>`)[0];
+                popup_21eb3d3d7e5fc8f1cab1e7e4d3e5c811.setContent(html_190815aca0cdb4fd783dd6604296daff);
+            
+        
+
+        marker_3961ad65f2c35c2f102230f7c10da41d.bindPopup(popup_21eb3d3d7e5fc8f1cab1e7e4d3e5c811)
+        ;
+
+        
+    
+    
+            marker_3961ad65f2c35c2f102230f7c10da41d.bindTooltip(
+                `<div>
+                     🟢 Çankaya — Ümitköy Köprüsü — Akıcı (80 km/h)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3961ad65f2c35c2f102230f7c10da41d.setIcon(icon_aa113d52a986cb040c30481092b17ce0);
+            
+    
+            var marker_df85dac76da05f44588e50c8a64f06b8 = L.marker(
+                [39.8672, 32.7488],
+                {
+}
+            ).addTo(feature_group_ecb79ce5f18cc3b188fb54a4184c29e5);
+        
+    
+            var icon_809f4e6d6474543ddae7412c58b788b4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fcbe0732c5bf09fb8dca6eeb65a9c935 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_b03f9fc106dceb2c687d6b2b02482bad = $(`<div id="html_b03f9fc106dceb2c687d6b2b02482bad" style="width: 100.0%; height: 100.0%;">         <div style="             font-family: 'Segoe UI', Arial, sans-serif;             min-width: 280px;             max-width: 340px;             color: #ecf0f1;             background: #2c3e50;             padding: 14px;             border-radius: 8px;         ">             <!-- İlçe ve Kavşak Adı -->             <p style="margin:0 0 4px;font-size:11px;color:#95a5a6;                        text-transform:uppercase;letter-spacing:1px;">                 📌 Çankaya             </p>             <h3 style="margin:0 0 10px; color:#2ecc71; font-size:15px;">                 🟢 Bilkent Şehir Hastanesi Kavşağı             </h3>              <!-- Hava Durumu -->             <div style="display:flex; align-items:center; margin-bottom:8px;">                 <img src="https://openweathermap.org/img/wn/01n@2x.png" width="40"                      style="margin-right:8px;" alt="hava">                 <div>                     <b>Hava Durumu:</b> Açık<br>                     <b>Sıcaklık:</b> 18.5 °C                 </div>             </div>              <!-- Trafik Bilgisi Tablosu -->             <table style="width:100%; font-size:13px; border-collapse:collapse;">                 <tr>                     <td style="padding:3px 0;">🚗 <b>Mevcut Hız:</b></td>                     <td style="padding:3px 0;">59 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">🛣️ <b>Serbest Akış Hızı:</b></td>                     <td style="padding:3px 0;">59 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">📊 <b>Yoğunluk:</b></td>                     <td style="padding:3px 0;">%0.0</td>                 </tr>                 <tr>                     <td style="padding:3px 0;"><b>🚦 Durum:</b></td>                     <td style="padding:3px 0;font-weight:bold;color:#2ecc71;">                         Akıcı                     </td>                 </tr>             </table>              <!-- Yakın Kazalar -->                          <div style="margin-top:8px;padding-top:6px;border-top:1px solid #555;">                 <b>⚠️ Yakın Olaylar (2 adet):</b>                 <ol style="margin:4px 0;padding-left:18px;font-size:12px;">                     <li>Yol çalışması</li><li>Yol çalışması</li>                 </ol>             </div>                           <!-- Alternatif Rota Tavsiyesi (sadece sıkışıksa görünür) -->                           <!-- Zaman damgası -->             <p style="margin:8px 0 0;font-size:11px;color:#7f8c8d;text-align:right;">                 Güncelleme: 23:34:25             </p>         </div>         </div>`)[0];
+                popup_fcbe0732c5bf09fb8dca6eeb65a9c935.setContent(html_b03f9fc106dceb2c687d6b2b02482bad);
+            
+        
+
+        marker_df85dac76da05f44588e50c8a64f06b8.bindPopup(popup_fcbe0732c5bf09fb8dca6eeb65a9c935)
+        ;
+
+        
+    
+    
+            marker_df85dac76da05f44588e50c8a64f06b8.bindTooltip(
+                `<div>
+                     🟢 Çankaya — Bilkent Şehir Hastanesi Kavşağı — Akıcı (59 km/h)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_df85dac76da05f44588e50c8a64f06b8.setIcon(icon_809f4e6d6474543ddae7412c58b788b4);
+            
+    
+            var marker_2d65d4cef172fdf1b5e7bf9668f1155a = L.marker(
+                [39.9213, 32.8105],
+                {
+}
+            ).addTo(feature_group_ecb79ce5f18cc3b188fb54a4184c29e5);
+        
+    
+            var icon_2692adcfcd51a0b57b9cb71120d2ce1b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bf5955f6d0cebb057fa933c3b4f1b626 = L.popup({
+  "maxWidth": 360,
+});
+
+        
+            
+                var html_c1328a375528014937d550c8d83b9022 = $(`<div id="html_c1328a375528014937d550c8d83b9022" style="width: 100.0%; height: 100.0%;">         <div style="             font-family: 'Segoe UI', Arial, sans-serif;             min-width: 280px;             max-width: 340px;             color: #ecf0f1;             background: #2c3e50;             padding: 14px;             border-radius: 8px;         ">             <!-- İlçe ve Kavşak Adı -->             <p style="margin:0 0 4px;font-size:11px;color:#95a5a6;                        text-transform:uppercase;letter-spacing:1px;">                 📌 Çankaya             </p>             <h3 style="margin:0 0 10px; color:#2ecc71; font-size:15px;">                 🟢 Anadolu Bulvarı Kesişimi             </h3>              <!-- Hava Durumu -->             <div style="display:flex; align-items:center; margin-bottom:8px;">                 <img src="https://openweathermap.org/img/wn/01n@2x.png" width="40"                      style="margin-right:8px;" alt="hava">                 <div>                     <b>Hava Durumu:</b> Açık<br>                     <b>Sıcaklık:</b> 20.5 °C                 </div>             </div>              <!-- Trafik Bilgisi Tablosu -->             <table style="width:100%; font-size:13px; border-collapse:collapse;">                 <tr>                     <td style="padding:3px 0;">🚗 <b>Mevcut Hız:</b></td>                     <td style="padding:3px 0;">74 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">🛣️ <b>Serbest Akış Hızı:</b></td>                     <td style="padding:3px 0;">74 km/h</td>                 </tr>                 <tr>                     <td style="padding:3px 0;">📊 <b>Yoğunluk:</b></td>                     <td style="padding:3px 0;">%0.0</td>                 </tr>                 <tr>                     <td style="padding:3px 0;"><b>🚦 Durum:</b></td>                     <td style="padding:3px 0;font-weight:bold;color:#2ecc71;">                         Akıcı                     </td>                 </tr>             </table>              <!-- Yakın Kazalar -->                          <div style="margin-top:8px;padding-top:6px;border-top:1px solid #555;">                 <b>⚠️ Yakın Olaylar (7 adet):</b>                 <ol style="margin:4px 0;padding-left:18px;font-size:12px;">                     <li>Kapalı</li><li>Kapalı</li><li>Kapalı</li><li>Kapalı</li><li>Kapalı</li>                 </ol>             </div>                           <!-- Alternatif Rota Tavsiyesi (sadece sıkışıksa görünür) -->                           <!-- Zaman damgası -->             <p style="margin:8px 0 0;font-size:11px;color:#7f8c8d;text-align:right;">                 Güncelleme: 23:34:25             </p>         </div>         </div>`)[0];
+                popup_bf5955f6d0cebb057fa933c3b4f1b626.setContent(html_c1328a375528014937d550c8d83b9022);
+            
+        
+
+        marker_2d65d4cef172fdf1b5e7bf9668f1155a.bindPopup(popup_bf5955f6d0cebb057fa933c3b4f1b626)
+        ;
+
+        
+    
+    
+            marker_2d65d4cef172fdf1b5e7bf9668f1155a.bindTooltip(
+                `<div>
+                     🟢 Çankaya — Anadolu Bulvarı Kesişimi — Akıcı (74 km/h)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2d65d4cef172fdf1b5e7bf9668f1155a.setIcon(icon_2692adcfcd51a0b57b9cb71120d2ce1b);
+            
+    
+            feature_group_ecb79ce5f18cc3b188fb54a4184c29e5.addTo(map_2d419ac738e479ff4d8a9b675244953a);
+        
+    
+            var poly_line_f462a5806d865533f84495f5bcbfb8fd = L.polyline(
+                [[39.5846, 32.1362], [39.9497, 32.5534], [39.9473, 32.6312], [39.9086, 32.7384], [39.8672, 32.7488], [39.9213, 32.8105]],
+                {"bubblingMouseEvents": true, "color": "#3498db", "dashArray": "10", "dashOffset": null, "fill": false, "fillColor": "#3498db", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.6, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_2d419ac738e479ff4d8a9b675244953a);
+        
+    
+            poly_line_f462a5806d865533f84495f5bcbfb8fd.bindTooltip(
+                `<div>
+                     D200 Eskişehir Yolu Hattı (Polatlı → Anadolu Blv.)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
