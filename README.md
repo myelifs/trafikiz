@@ -51,8 +51,11 @@ pip install -r requirements.txt
 Güvenlik prensipleri gereği API şifrelerini barındıran .env dosyası bu GitHub reposuna eklenmemiştir. Projeyi çalıştırabilmek için ana dizinde (app.py ile aynı yerde) kendiniz bir .env dosyası oluşturmalı ve içine kendi API anahtarlarınızı aşağıdaki formatta yazmalısınız:
 
 Kod snippet'i
+
 TOMTOM_API_KEY="sizin_tomtom_anahtariniz_buraya"
+
 OPENWEATHER_API_KEY="sizin_openweather_anahtariniz_buraya"
+
 GEMINI_API_KEY="sizin_gemini_anahtariniz_buraya"
 
 ### 5. Uygulamayı Başlatın
