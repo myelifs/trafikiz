@@ -44,7 +44,6 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 ### 3. Gerekli Kütüphaneleri Yükleyin
-Bash
 pip install -r requirements.txt
 
 ### 4. ⚠️ Çevresel Değişkenleri (.env) Ayarlayın (ÇOK ÖNEMLİ)
@@ -61,7 +60,6 @@ GEMINI_API_KEY="sizin_gemini_anahtariniz_buraya"
 ### 5. Uygulamayı Başlatın
 Tüm adımları tamamladıktan sonra yönetim panelini tarayıcınızda açmak için:
 
-Bash
 # streamlit run app.py
 
 ## 📊 Proje Yönetimi ve Ürün Yol Haritası (Product Roadmap)
