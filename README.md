@@ -77,4 +77,5 @@ Trafikİz, salt bir kodlama pratiği olarak değil; uçtan uca tasarlanmış, Ç
 
 ## 👩‍💻 Proje Yöneticisi & Baş Geliştirici (Tech Lead)
 
-**Miyase Elif Aksoy** *Bilecik Şeyh Edebali Üniversitesi - İstatistik ve Bilgisayar Bilimleri Bölümü*
+**Miyase Elif Aksoy** 
+*Bilecik Şeyh Edebali Üniversitesi - İstatistik ve Bilgisayar Bilimleri Bölümü*
